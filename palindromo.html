@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Palindromo</title>
+    <link rel="stylesheet"href="./CSS/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&family=Nova+Flat&family=Supermercado+One&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="contenedor-principal">
+    <h1>🧩 Detector de Palindromos</h1>
+        <label for="textoUsuario" class="subtitulo">Escribe una palabra o frase:</label>
+        </br>
+        <input type="text" id="textoUsuario" class="entrada-texto" placeholder="Ej. Ana o Reconocer...">
+        </br>
+        <!-- El botón que llamará a la función en main.js -->
+        <button class="boton" onclick="comprobarPalindromo()">Verificar</button>
+        </br>
+        <!-- Aquí es donde se pintará la respuesta (Sí o No) -->
+        <div id="resultado" class="zona-resultado">
+            <span>Esperando palabra...</span>
+        </div>
+        </br>
+        <a href="./index.html" class="enlace-regresar">⬅️ Volver al Menú</a>
+    </div>
+    
+<script src="./JS/main.js"></script>
+</body>
+</html>

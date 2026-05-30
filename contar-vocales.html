@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Contar Vocales</title>
+    <link rel="stylesheet" href="./CSS/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&family=Nova+Flat&family=Supermercado+One&display=swap"
+        rel="stylesheet">
+</head>
+
+
+<body>
+    <div class="contenedor-principal">
+        <h1>📊 Contador de Vocales</h1>
+        <div class="tarjeta-ejercicio"></div>
+
+        <label for="fraseUsuario" class="subtitulo">Ingresa una frase:</label>
+        </br>
+        <input type="text" id="fraseUsuario" class="entrada-texto" placeholder="Ej. Murciélago o Hola Mundo...">
+        </br>
+        <button class="boton" onclick="contarVocales()">Contar Vocales</button>
+        <div class="subtitulo" style="margin-top: 15px; font-weight: bold;">Cantidad de vocales encontradas:</div>
+        <div id="resultado-vocales" class="zona-resultado">
+            <span>Esperando frase...</span>
+        </div>
+        </br>
+       <div id="Vocal-a" class="zona-resultado">
+            <span>Vocales a ...</span>
+        </div>
+        </br>
+        <div id="Vocal-e" class="zona-resultado">
+            <span>Vocales e ...</span>
+        </div>
+        </br>
+        <div id="Vocal-i" class="zona-resultado">
+            <span>Vocales i ...</span>
+        </div>
+        </br>
+        <div id="Vocal-o" class="zona-resultado">
+            <span>Vocales o ...</span>
+        </div>
+        </br>
+        <div id="Vocal-u" class="zona-resultado">
+            <span>Vocales u ...</span>
+        </div>
+        </br>
+        
+        <a href="./index.html" class="enlace-regresar">⬅️ Volver al Menú</a>
+    </div>
+    </div>
+<script src="./JS/main.js"></script>
+</body>
+</html>

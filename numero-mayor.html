@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Numero Mayor</title>
+    <link rel="stylesheet" href="./CSS/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&family=Nova+Flat&family=Supermercado+One&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="contenedor-principal">
+        <h1>🔢 ¿Cuál número es el mayor?</h1>
+        <div class="tarjeta-ejercicio">
+            <label for="numero1" class="subtitulo">Ingresa el primer numero:</label>
+            <input type="number" id="numero1" class="entrada-texto" placeholder="Ej. 15">
+            </br>
+            </br>
+            <label for="numero2" class="subtitulo">Ingresa el segundo numero:</label>
+            <input type="number" id="numero2" class="entrada-texto" placeholder="Ej. 8">
+            </br>
+            </br>
+            <button class="boton" onclick="calcularMayor()">Comparar números</button>
+            </br>
+            </br>
+            <div id="resultado-mayor" class="zona-resultado">
+                <span>Esperando números...</span>
+            </div>
+            </br>
+            <a href="./index.html" class="enlace-regresar">⬅️ Volver al Menú</a>
+        </div>
+
+<script src="./JS/main.js"></script>
+</body>
+</html>

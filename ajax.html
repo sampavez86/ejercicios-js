@@ -1,0 +1,52 @@
+<<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Consulta AJAX Completa</title>
+    <link rel="stylesheet" href="./CSS/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&family=Nova+Flat&family=Supermercado+One&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="contenedor-principal">
+        <h1>🌐 Consultor de URLs (AJAX)</h1>
+        
+        <div class="tarjeta-ejercicio">
+            <label for="urlUsuario" class="subtitulo">URL a consultar:</label>
+            <br>
+            <!-- Corregida la URL por defecto para que no la bloquee el navegador -->
+            <input type="text" id="urlUsuario" class="entrada-texto" value="https://sampavez86.github.io/My-firsr-portfolio-pure-HTML/ style="width: 80%;">
+            <br><br>
+            <button class="boton" onclick="ejecutarConsultaAJAX()">Consultar Servidor</button>
+            <br><br>
+
+            <div class="subtitulo" style="font-weight: bold;">Estado de la Respuesta:</div>
+            <!-- Asegurado el ID exacto que buscará JavaScript -->
+            <div id="Estado-pagina" class="zona-resultado" style="text-align: left; font-family: monospace; white-space: pre-wrap;">
+                <span>Esperando consulta...</span>
+            </div>
+            <br>
+            
+            <div class="subtitulo" style="font-weight: bold;">Cabeceras del Servidor (Headers):</div>
+            <div id="cabeceras-pagina" class="zona-resultado" style="text-align: left; font-family: monospace; white-space: pre-wrap; max-height: 150px; overflow-y: auto;">
+                <span>Esperando consulta...</span>
+            </div>
+            <br>
+            
+            <div class="subtitulo" style="font-weight: bold;">Contenido de la Respuesta (HTML/Texto):</div>
+            <div id="contenido-html" class="zona-resultado" style="text-align: left; font-family: monospace; white-space: pre-wrap; max-height: 200px; overflow-y: auto;">
+                <span>Esperando consulta...</span>
+            </div>
+            <br>
+            
+            <a href="./index.html" class="enlace-regresar">⬅️ Volver al Menú</a>
+        </div>
+    </div>
+
+    <script src="./JS/main.js"></script>
+</body>
+
+</html>
