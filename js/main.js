@@ -156,10 +156,21 @@ function contarVocales() {
     document.getElementById("Vocal-u").innerHTML = "<span>Vocales u: <strong>" + contU + "</strong></span>";
 }
 
-// Consulta AJAX Completa y Corregida
+// REQUISITO 1: Al cargar la página, se muestra la URL de la propia página por defecto
+window.onload = function() {
+    document.getElementById("urlUsuario").value = window.location.href;
+};
+
+// Función principal AJAX (Coincide con los IDs exactos de tu HTML)
 function ejecutarConsultaAJAX() {
+    // CORRECCIÓN CRUCIAL: Detiene el envío del formulario y evita que la pantalla se borre
+    if (window.event) {
+        window.event.preventDefault();
+    }
+
     let urlDestino = document.getElementById("urlUsuario").value;
 
+    // IDs exactos tomados de tu archivo HTML original
     let zonaEstado = document.getElementById("Estado-pagina");
     let zonaCabeceras = document.getElementById("cabeceras-pagina");
     let zonaContenido = document.getElementById("contenido-html");
@@ -170,19 +181,18 @@ function ejecutarConsultaAJAX() {
         return;
     }
 
-    // Limpiamos los contenedores antes de iniciar la nueva petición
+    // Inicializamos las pantallas con textos de carga limpios
     zonaEstado.innerHTML = ""; 
-    zonaCabeceras.innerHTML = "<span>⏳ Cargando...</span>";
-    zonaContenido.innerHTML = "<span>⏳ Cargando...</span>";
+    zonaCabeceras.innerHTML = "<span>⏳ Cargando cabeceras...</span>";
+    zonaContenido.innerHTML = "<span>⏳ Cargando contenido...</span>";
 
     let conexion = new XMLHttpRequest();
     conexion.open("GET", urlDestino, true);
 
-    // REQUISITO 3: Escuchar TODOS los cambios de estado en todo momento
+    // REQUISITO 3: Escuchar y mostrar TODOS los cambios de estado "en todo momento"
     conexion.onreadystatechange = function() {
         let textoEstadoInterno = "";
         
-        // Traducimos el número de estado actual a texto descriptivo
         switch(conexion.readyState) {
             case 0: textoEstadoInterno = "0: No iniciada"; break;
             case 1: textoEstadoInterno = "1: Conexión establecida (Cargando...)"; break;
@@ -191,38 +201,36 @@ function ejecutarConsultaAJAX() {
             case 4: textoEstadoInterno = "4: Completada"; break;
         }
         
-        // Vamos acumulando y mostrando los estados uno tras otro en la pantalla
+        // Vamos acumulando el historial de estados en la pantalla uno tras otro
         zonaEstado.innerHTML += textoEstadoInterno + "<br>";
 
-        // REQUISITO 2, 4 y 5: Solo cuando llega al estado 4 (Completada) procesamos los datos finales
+        // Procesar las respuestas definitivas cuando llegue al Estado 4
         if (conexion.readyState === 4) {
             
-            // REQUISITO 5: Código y texto de estado (Ej: 200 OK o 404 Not Found)
+            // REQUISITO 5: Mostrar el código y el texto de la respuesta (Ej: 200 OK)
             let textoEstado = conexion.statusText;
             if (conexion.status === 200 && (!textoEstado || textoEstado === "")) {
                 textoEstado = "OK";
             }
-            // Agregamos el código final abajo de la lista de estados de conexión
-            zonaEstado.innerHTML += "<br><strong>Resultado Final: " + conexion.status + " - " + textoEstado + "</strong>";
+            // Agregamos el resultado del código de estado abajo de la lista
+            zonaEstado.innerHTML += "<br><strong>Código de estado: " + conexion.status + " - " + textoEstado + "</strong>";
 
-            // REQUISITO 4: Mostrar todas las cabeceras HTTP de la respuesta
+            // REQUISITO 4: Mostrar el contenido de todas las cabeceras HTTP de la respuesta
             let cabeceras = conexion.getAllResponseHeaders();
-            // Usamos innerText para que los saltos de línea de las cabeceras se respeten limpiamente
-            zonaCabeceras.innerText = cabeceras ? cabeceras : "No se encontraron cabeceras.";
+            zonaCabeceras.innerText = cabeceras ? cabeceras : "No se encontraron cabeceras disponibles (CORS).";
 
-            // REQUISITO 2: Mostrar el contenido del archivo (HTML o Texto de respuesta)
-            // Usamos innerText para que muestre las etiquetas como texto puro y no rompa tu propio diseño
+            // REQUISITO 2: Mostrar el contenido de la respuesta en la zona de contenidos
             zonaContenido.innerText = conexion.responseText;
         }
     };
 
-    // Control de errores de red severos
+    // Control de errores de red severos o bloqueos por políticas del navegador
     conexion.onerror = function() {
         zonaEstado.innerHTML += "<br><strong style='color: red;'>❌ Error de red / Bloqueo CORS.</strong>";
-        zonaCabeceras.innerText = "Error al leer cabeceras.";
+        zonaCabeceras.innerText = "Error al leer cabeceras debido a la seguridad.";
         zonaContenido.innerText = "No se pudo conectar con el servidor.";
     };
 
-    // Disparar la petición
+    // Envío de la petición AJAX
     conexion.send();
 }
