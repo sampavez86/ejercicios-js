@@ -122,7 +122,6 @@ function contarVocales() {
     let contU = 0;
     let totalVocales = 0;
 
-    // 3. TU LÓGICA: Recorremos toda la frase carácter por carácter
     for (let f = 0; f < fraseLimpia.length; f++) {
         let letraActual = fraseLimpia[f];
 
@@ -157,46 +156,73 @@ function contarVocales() {
     document.getElementById("Vocal-u").innerHTML = "<span>Vocales u: <strong>" + contU + "</strong></span>";
 }
 
-// consulta AJAX
+// Consulta AJAX Completa y Corregida
 function ejecutarConsultaAJAX() {
     let urlDestino = document.getElementById("urlUsuario").value;
 
-  
     let zonaEstado = document.getElementById("Estado-pagina");
     let zonaCabeceras = document.getElementById("cabeceras-pagina");
     let zonaContenido = document.getElementById("contenido-html");
 
+    // Validación de campo vacío
     if (urlDestino.replaceAll(" ", "") === "") {
         zonaEstado.innerHTML = "<span>⚠️ Por favor, ingresa una URL.</span>";
         return;
     }
 
-    zonaEstado.innerHTML = "<span>⏳ Consultando...</span>";
+    // Limpiamos los contenedores antes de iniciar la nueva petición
+    zonaEstado.innerHTML = ""; 
     zonaCabeceras.innerHTML = "<span>⏳ Cargando...</span>";
     zonaContenido.innerHTML = "<span>⏳ Cargando...</span>";
 
     let conexion = new XMLHttpRequest();
     conexion.open("GET", urlDestino, true);
 
+    // REQUISITO 3: Escuchar TODOS los cambios de estado en todo momento
     conexion.onreadystatechange = function() {
-    if (conexion.readyState === 4) {
-       
-        let textoEstado = conexion.statusText;
-        if (conexion.status === 200 && (!textoEstado || textoEstado === "")) {
-            textoEstado = "OK";
+        let textoEstadoInterno = "";
+        
+        // Traducimos el número de estado actual a texto descriptivo
+        switch(conexion.readyState) {
+            case 0: textoEstadoInterno = "0: No iniciada"; break;
+            case 1: textoEstadoInterno = "1: Conexión establecida (Cargando...)"; break;
+            case 2: textoEstadoInterno = "2: Petición recibida"; break;
+            case 3: textoEstadoInterno = "3: Procesando petición (Descargando...)"; break;
+            case 4: textoEstadoInterno = "4: Completada"; break;
         }
         
-       
-        zonaEstado.innerHTML = "<strong>Código: " + conexion.status + " - " + textoEstado + "</strong>";
+        // Vamos acumulando y mostrando los estados uno tras otro en la pantalla
+        zonaEstado.innerHTML += textoEstadoInterno + "<br>";
 
-        };
+        // REQUISITO 2, 4 y 5: Solo cuando llega al estado 4 (Completada) procesamos los datos finales
+        if (conexion.readyState === 4) {
+            
+            // REQUISITO 5: Código y texto de estado (Ej: 200 OK o 404 Not Found)
+            let textoEstado = conexion.statusText;
+            if (conexion.status === 200 && (!textoEstado || textoEstado === "")) {
+                textoEstado = "OK";
+            }
+            // Agregamos el código final abajo de la lista de estados de conexión
+            zonaEstado.innerHTML += "<br><strong>Resultado Final: " + conexion.status + " - " + textoEstado + "</strong>";
 
+            // REQUISITO 4: Mostrar todas las cabeceras HTTP de la respuesta
+            let cabeceras = conexion.getAllResponseHeaders();
+            // Usamos innerText para que los saltos de línea de las cabeceras se respeten limpiamente
+            zonaCabeceras.innerText = cabeceras ? cabeceras : "No se encontraron cabeceras.";
+
+            // REQUISITO 2: Mostrar el contenido del archivo (HTML o Texto de respuesta)
+            // Usamos innerText para que muestre las etiquetas como texto puro y no rompa tu propio diseño
+            zonaContenido.innerText = conexion.responseText;
+        }
+    };
+
+    // Control de errores de red severos
     conexion.onerror = function() {
-        zonaEstado.innerHTML = "<strong style='color: red;'>❌ Error de red / Bloqueo CORS.</strong>";
+        zonaEstado.innerHTML += "<br><strong style='color: red;'>❌ Error de red / Bloqueo CORS.</strong>";
         zonaCabeceras.innerText = "Error al leer cabeceras.";
         zonaContenido.innerText = "No se pudo conectar con el servidor.";
     };
 
+    // Disparar la petición
     conexion.send();
-}
 }
